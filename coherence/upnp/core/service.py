@@ -370,6 +370,13 @@ class Service(log.Loggable):
                     {urn:schemas-beebits-net:service-1-0}X_withVendorDefines
                     attibute there
                 """
+                allowed_range = var_node.find('{%s}allowedValueRange' % ns)
+                if allowed_range:
+                    allowed_range_dict = {}
+                    for item in allowed_range:
+                        namespace_uri, tag = item.tag[1:].split("}", 1)
+                        allowed_range_dict[tag] = item.text
+                    self._variables.get(instance)[name].set_allowed_value_range(**allowed_range_dict)
                 self._variables.get(instance)[name].has_vendor_values = True
 
             #print 'service parse:', self, self.device
