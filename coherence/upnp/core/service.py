@@ -366,17 +366,18 @@ class Service(log.Loggable):
                                                                'n/a',
                                                                instance, send_events,
                                                                data_type, values)
-                """ we need to do this here, as there we don't get there our
-                    {urn:schemas-beebits-net:service-1-0}X_withVendorDefines
-                    attibute there
-                """
                 allowed_range = var_node.find('{%s}allowedValueRange' % ns)
                 if allowed_range:
                     allowed_range_dict = {}
                     for item in allowed_range:
                         namespace_uri, tag = item.tag[1:].split("}", 1)
-                        allowed_range_dict[tag] = item.text
+                        if tag in ['maximum','minimum','step']:
+                            allowed_range_dict[tag] = item.text
                     self._variables.get(instance)[name].set_allowed_value_range(**allowed_range_dict)
+                """ we need to do this here, as there we don't get there our
+                    {urn:schemas-beebits-net:service-1-0}X_withVendorDefines
+                    attibute there
+                """
                 self._variables.get(instance)[name].has_vendor_values = True
 
             #print 'service parse:', self, self.device
