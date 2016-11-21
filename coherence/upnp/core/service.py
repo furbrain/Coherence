@@ -371,7 +371,7 @@ class Service(log.Loggable):
                     allowed_range_dict = {}
                     for item in allowed_range:
                         namespace_uri, tag = item.tag[1:].split("}", 1)
-                        if tag in ['maximum','minimum','step']:
+                        if tag in ['maximum', 'minimum', 'step']:
                             allowed_range_dict[tag] = item.text
                     self._variables.get(instance)[name].set_allowed_value_range(**allowed_range_dict)
                 """ we need to do this here, as there we don't get there our
